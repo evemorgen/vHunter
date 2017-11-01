@@ -1,0 +1,11 @@
+min_python: 3.5.0
+log_dir: /var/log/vHunter
+logging_level: debug
+scenarios_dirs: 
+  - /etc/vHunter
+  - /Users/evemorgen/scenarios
+supported_platforms:
+  - mac_os
+  - linux
+fallback_distro_command: 'cat /etc/*release | grep -P "(^ID=.*)|(^VERSION_ID=.*)"'
+
