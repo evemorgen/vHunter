@@ -22,7 +22,6 @@ def detect_distro():
         'windows': platform.win32_ver(),
         'java': platform.java_ver()
     }
-    """
     for dist, ver in distro_dict.items():
         if ver[0] != '' and dist not in config.supported_platforms:
             raise SystemError(
@@ -30,7 +29,7 @@ def detect_distro():
                 .format(dist)
             )
         elif ver[0] != '' and dist in config.supported_platforms:
-            return ver
-    """
-    grepped_distros = subprocess.run(config.fallback_distro_command)
-    print(grepped_distros.stdout)
+            return {'distro': dist, 'version': ver}
+
+    #  grepped_distros = subprocess.run(config.fallback_distro_command, shell=True)
+    #  print(grepped_distros.stdout)
