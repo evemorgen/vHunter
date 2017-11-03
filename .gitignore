@@ -103,3 +103,7 @@ ENV/
 # vimfiles
 **/*.swp
 **/*.swo
+
+# testing files
+/playground/*
+/vHunter/conf/merged.yaml
