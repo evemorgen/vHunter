@@ -1,0 +1,37 @@
+import logging
+import os
+import coloredlogs
+
+from utils import Config
+
+levels = {
+    'DEBUG': logging.DEBUG,
+    'INFO': logging.INFO,
+    'ERROR': logging.ERROR,
+    'WARNING': logging.WARNING,
+}
+
+
+def setup_logging(log_file=None, log_level=None):
+    config = Config()
+    if log_file is None:
+        log_file = config.log_file
+    if log_level is None:
+        log_level = config.log_level
+
+    os.environ['COLOREDLOGS_LOG_FORMAT'] = config.log_format
+
+    make_dirs(log_file)
+    logger = logging.getLogger()
+    handler = logging.FileHandler(log_file)
+    handler.setFormatter(logging.Formatter(config.log_format))
+    logger.addHandler(handler)
+    logger.setLevel(log_level)
+    coloredlogs.install(
+        level=levels[log_level]
+    )
+
+
+def make_dirs(log_file):
+    dir_name = os.path.dirname(log_file)
+    os.makedirs(dir_name, exist_ok=True)
