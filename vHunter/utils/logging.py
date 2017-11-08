@@ -18,6 +18,7 @@ def setup_logging(log_file=None, log_level=None):
         log_file = config.log_file
     if log_level is None:
         log_level = config.log_level
+    log_level = log_level.upper()
 
     os.environ['COLOREDLOGS_LOG_FORMAT'] = config.log_format
 

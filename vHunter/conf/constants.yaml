@@ -11,3 +11,4 @@ descriptions:
     port_help: "which port to use when trying connect to master"
     host_help: "host ip where master is operating"
     list_scenarios_help: "vHunter will list avaliable scenarios to stdout, then exit"
+    not_supported_message: "This feature - %s flag - is not yet supported. But we are accepting PR's :) If you want to help please visit gh.com/evemorgen/vHunter"
