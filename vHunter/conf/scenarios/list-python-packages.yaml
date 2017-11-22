@@ -1,0 +1,3 @@
+list-python-packages-scenario:
+    job:
+        default: pip3 freeze | sed -e ''s/==/,/g''

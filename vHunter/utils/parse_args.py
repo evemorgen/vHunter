@@ -13,7 +13,7 @@ def parse_args():
     parser.add_argument('-ms', '--master-slave', action='store_true', help=descs['master_slave_help'], default=False)
     parser.add_argument('-m', '--master', action='store_true', help=descs['master_help'], default=False)
     parser.add_argument('-s', '--slave', action='store_true', help=descs['slave_help'], default=False)
-    parser.add_argument('-S', '--scenario', action='store', help=descs['scenario_help'])
+    parser.add_argument('-S', '--scenarios', action='store', help=descs['scenario_help'])
     parser.add_argument('-c', '--config', action='store', help=descs['config_help'])
     parser.add_argument('-l', '--log-file', action='store', help=descs['log_file_help'])
     parser.add_argument('-L', '--log-level', action='store', help=descs['log_level_help'])
