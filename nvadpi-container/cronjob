@@ -1,0 +1,2 @@
+* * * * * root echo "Yep, i'm working fine" >> /var/log/cron.log 2>&1
+30 * * * * root cd /root/nvdapi && PYTHONPATH=$PYTHONPATH:/usr/local/lib/python2.7/site-packages python cron.py >> /var/log/cron.log 2>&1
