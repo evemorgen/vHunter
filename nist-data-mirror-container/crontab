@@ -1,0 +1,1 @@
+ 0 * * * * root cd /root/nist-mirror-app/; java -jar nist-data-mirror.jar /root/nist-mirror-data/ > /proc/1/fd/1 2>/proc/1/fd/2
