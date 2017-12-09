@@ -11,3 +11,20 @@ supported_platforms:
 commands:
     - fallback_distro_command: 'cat /etc/*release | grep -P "(^ID=.*)|(^VERSION_ID=.*)"'
 
+gmail_notifier:
+    domain: 'smtp.gmail.com'
+    account: 'vHunterNotify@gmail.com'
+    pass: 'RHVwYWR1cGExMjM='
+    subject: '%s Vulnerabilities detected on %s machine(s)'
+    body: |
+        Here is list of vulnerabilities found:
+        %s
+
+nvdapi:
+    url: http://price-monitor.tk/nvdapi/vulnerabilities
+    filter_fields:
+        - product
+        - vendor
+        - version
+    port: 80
+
