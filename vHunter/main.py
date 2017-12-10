@@ -6,14 +6,17 @@ from utils.distro import check_python
 from utils import prepare_asyncio
 from utils import parse_args
 from utils import setup_logging
-from utils import run_cmd
 from utils import Scenarios
-
+from drivers import BasicDriver
+from notifiers import GmailSmtpNotifier
 
 async def main():
+    logging.debug("starting main")
     scenarios = Scenarios()
-    output = await run_cmd("brew list --versions")
-    logging.warning(output)
+    #driver = BasicDriver(scenarios['list-apps-scenario'])
+    driver = BasicDriver(scenarios['list-python-packages-scenario'])
+    await driver.perform()
+
 
 if __name__ == "__main__":
     config = Config()

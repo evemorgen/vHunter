@@ -13,19 +13,19 @@ class SmtpNotifier:
 
     def prepare_message(self, receivers, subject, body, sender=None):
         message = MIMEText(body)
-        if sender is not None:
-            message['From'] = sender
+        # if sender is not None:
         message['To'] = ', '.join(receivers)
         message['Subject'] = subject
-        message['Content-Type'] = 'text/plain'
+        #message['Content-Type'] = 'text/plain'
         return message.as_string()
 
     def send_msg(self, receives, subject, body):
         self.mail.ehlo()
         self.mail.starttls()
+        self.mail.ehlo()
         self.mail.login(self.username, self.password)
         message = self.prepare_message(receives, subject, body, self.sender)
-        self.mail.sendmail(self.sender, receives, message)
+        self.mail.sendmail('notify@vhunter.tk', receives, message)
         self.mail.quit()
 
 
@@ -36,7 +36,7 @@ class GmailSmtpNotifier(SmtpNotifier):
         self.password = base64.b64decode(self.config['pass']).decode()
         super().__init__(
             self.config['domain'],
-            sender=self.config['account']
+            sender=self.config['account'],
         )
 
     '''
@@ -49,6 +49,5 @@ class GmailSmtpNotifier(SmtpNotifier):
             sum(map(lambda x: len(x), vulnerabilities.values())),
             len(vulnerabilities.keys())
         )
-        body = self.config['body'] % pformat(vulnerabilities, indent=4, width=20).replace('\n', '\r\n')
-        print(body)
+        body = self.config['body'] % pformat(vulnerabilities, indent=4, width=80).replace('\n', '\r\n')
         super().send_msg(receivers, subject, body)

@@ -3,6 +3,7 @@ import os
 import coloredlogs
 
 from utils import Config
+from utils.distro import get_distro
 
 levels = {
     'DEBUG': logging.DEBUG,
@@ -15,7 +16,7 @@ levels = {
 def setup_logging(log_file=None, log_level=None):
     config = Config()
     if log_file is None:
-        log_file = config.log_file
+        log_file = config.log_file[get_distro()]
     if log_level is None:
         log_level = config.log_level
     log_level = log_level.upper()

@@ -1,3 +1,4 @@
 singleton-decorator==1.0.0
 yamlcfg==0.5.3
 coloredlogs==7.3
+aiohttp==2.3.6

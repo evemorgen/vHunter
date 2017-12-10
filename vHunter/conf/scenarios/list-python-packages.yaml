@@ -1,3 +1,7 @@
 list-python-packages-scenario:
     job:
-        default: pip3 freeze | sed -e ''s/==/,/g''
+        default: pip3 freeze | sed -e 's/==/,/g'
+    min_score: 5.0
+    receivers:
+        - evemorgen1911@gmail.com
+

@@ -1,5 +1,4 @@
 import platform
-import subprocess
 
 from utils import Config
 
@@ -33,3 +32,7 @@ def detect_distro():
 
     #  grepped_distros = subprocess.run(config.fallback_distro_command, shell=True)
     #  print(grepped_distros.stdout)
+
+
+def get_distro():
+    return detect_distro()['distro']
