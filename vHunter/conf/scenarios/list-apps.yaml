@@ -6,6 +6,7 @@ list-apps-scenario:
         default: echo ''distro not found''
     min_score: 5.0
     driver: BasicDriver
+    how_often: 10 # in minutes
     notifiers:
         - MailNotifier
     receivers:
