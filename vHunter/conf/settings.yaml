@@ -13,24 +13,20 @@ supported_platforms:
 commands:
     - fallback_distro_command: 'cat /etc/*release | grep -P "(^ID=.*)|(^VERSION_ID=.*)"'
 
-gmail_notifier:
+mail_notifier:
     domain: 'email-smtp.eu-west-1.amazonaws.com'
     account: 'AKIAJG2UC3H4TXLB3JGA'
     pass: 'QWhCaUxYSDMySWVMOGZqczNDaCtBUGZWOHJpVDRSbWtPYmRZalhpQ3AwbXc='
-#    domain: 'smtp.gmail.com'
-#    account: 'vHunterNotify@gmail.com'
-#    pass: 'RHVwYWR1cGExMjM='
     subject: '%s Vulnerabilities detected on %s machine(s)'
     body: |
         Here is list of vulnerabilities found:
         %s
 
 nvdapi:
-    url: http://price-monitor.tk
+    url: http://vhunter.tk
     resource: /nvdapi/vulnerabilities
     filter_fields:
         - product
         - vendor
         - version
     port: 80
-

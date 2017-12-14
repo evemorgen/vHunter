@@ -6,5 +6,7 @@ list-apps-scenario:
         default: echo ''distro not found''
     min_score: 5.0
     driver: BasicDriver
+    notifiers:
+        - MailNotifier
     receivers:
         - evemorgen1911@gmail.com
