@@ -1,3 +1,3 @@
-from .detect_platform import check_python, detect_distro, get_distro
+from .detect_platform import detect_distro, get_distro
 
-__all__ = ["check_python", "detect_distro", "get_distro"]
+__all__ = ["detect_distro", "get_distro"]

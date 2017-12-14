@@ -3,7 +3,7 @@ import base64
 from email.mime.text import MIMEText
 from pprint import pformat
 
-from utils import Config
+from vHunter.utils import Config
 
 
 class SmtpNotifier:

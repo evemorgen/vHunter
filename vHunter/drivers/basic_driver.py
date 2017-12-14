@@ -1,18 +1,17 @@
 import logging
 import socket
 
-from utils import Config
-from utils import run_cmd
-from utils.distro import detect_distro
+from vHunter.utils import Config
+from vHunter.utils import run_cmd
+from vHunter.utils.distro import detect_distro
 
-from db import *         # noqa: F401,F403
-from notifiers import *  # noqa: F401,F403
+from vHunter.db import *         # noqa: F401,F403
+from vHunter.notifiers import *  # noqa: F401,F403
 
 
 class BasicDriver:
     def __init__(self, scenario):
         self.scenario = scenario
-        logging.error(self.scenario['receivers'])
         self.hostname = socket.gethostname()
         self.config = Config()
         self.dbapi = self.make_instance("NvdapiAdapter", scenario['min_score'])
@@ -57,7 +56,7 @@ class BasicDriver:
                 vulns = await self.dbapi.check(name, version=version)
                 all_vulns = all_vulns + vulns
             except ValueError as exc:
-                logging.exception("Bad line format, it takes name and version separated by comma 'name,version'")
+                logging.error("Bad line format, it takes name and version separated by comma 'name,version', got '%s'", thing)
 
         for notifier_name in self.scenario['notifiers']:
             notifier = self.make_instance(notifier_name)

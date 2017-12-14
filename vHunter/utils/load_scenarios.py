@@ -1,8 +1,10 @@
 import os
 from singleton_decorator import singleton
 
-from utils.config import Config
-from utils.config import merge_yamls
+from vHunter.utils.config import Config
+from vHunter.utils.config import merge_yamls
+
+PREFIX = os.path.dirname(os.path.realpath(__file__)) + "/../"
 
 
 @singleton
@@ -18,8 +20,9 @@ class Scenarios:
         scenario_files = []
         if args_scenarios_dir is not None:
             scenario_files = scenario_files + [os.path.join(args_scenarios_dir, file) for file in os.listdir(path=args_scenarios_dir) if file.endswith(".yaml")]
+        print(config_scenarios_dirs)
         for directory in config_scenarios_dirs:
-            scenario_files = scenario_files + [os.path.join(directory, file) for file in os.listdir(path=directory) if file.endswith(".yaml")]
+            scenario_files = scenario_files + [PREFIX + os.path.join(directory, file) for file in os.listdir(path=PREFIX + directory) if file.endswith(".yaml")]
         self.scenarios = merge_yamls(scenario_files)
 
     def check_scenarios_structure(self):

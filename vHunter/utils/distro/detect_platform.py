@@ -1,16 +1,6 @@
 import platform
 
-from utils import Config
-
-
-def check_python():
-    min_python = int(Config().min_python.replace(".", ""))
-    cur_python = int(platform.python_version().replace(".", ""))
-    if cur_python < min_python:
-        raise SystemError(
-            "Minimal version of Python to run vHunter is: {}, but used version is: {}"
-            .format(min_python, cur_python)
-        )
+from vHunter.utils import Config
 
 
 def detect_distro():

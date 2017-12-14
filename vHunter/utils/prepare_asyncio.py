@@ -2,7 +2,7 @@ from asyncio import SelectorEventLoop
 from asyncio import set_event_loop, get_event_loop
 from selectors import SelectSelector
 
-from utils.distro import detect_distro
+from vHunter.utils.distro import detect_distro
 
 
 def prepare_asyncio():

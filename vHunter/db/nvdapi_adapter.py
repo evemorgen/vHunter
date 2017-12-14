@@ -3,8 +3,8 @@ import async_timeout
 import logging
 from pprint import pformat
 
-from db import BasicDbAdapter
-from utils import Config
+from vHunter.db import BasicDbAdapter
+from vHunter.utils import Config
 
 
 class NvdapiAdapter(BasicDbAdapter):

@@ -2,8 +2,8 @@ import logging
 import os
 import coloredlogs
 
-from utils import Config
-from utils.distro import get_distro
+from vHunter.utils import Config
+from vHunter.utils.distro import get_distro
 
 levels = {
     'DEBUG': logging.DEBUG,

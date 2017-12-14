@@ -2,7 +2,7 @@ import argparse
 import logging
 import sys
 
-from utils import Config
+from vHunter.utils import Config
 
 
 def parse_args():
