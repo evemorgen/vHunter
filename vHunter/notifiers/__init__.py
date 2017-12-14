@@ -1,3 +1,3 @@
-from .gmail_smtp_notifier import GmailSmtpNotifier
+from .smtp_notifier import MailNotifier
 
-__all__ = [GmailSmtpNotifier]
+__all__ = ["MailNotifier"]
