@@ -1,4 +1,3 @@
-import logging
 
 from utils.config import Config
 from utils.distro import detect_distro
@@ -6,16 +5,11 @@ from utils.distro import check_python
 from utils import prepare_asyncio
 from utils import parse_args
 from utils import setup_logging
-from utils import Scenarios
-from drivers import BasicDriver
-from notifiers import GmailSmtpNotifier
+from workers import ScenarioWorker
 
-async def main():
-    logging.debug("starting main")
-    scenarios = Scenarios()
-    #driver = BasicDriver(scenarios['list-apps-scenario'])
-    driver = BasicDriver(scenarios['list-python-packages-scenario'])
-    await driver.perform()
+
+def run_workers():
+    ScenarioWorker()
 
 
 if __name__ == "__main__":
@@ -26,5 +20,6 @@ if __name__ == "__main__":
     check_python()
     detect_distro()
     main_loop = prepare_asyncio()
-    main_loop.run_until_complete(main())
+    run_workers()
+    main_loop.run_forever()
     main_loop.close()
