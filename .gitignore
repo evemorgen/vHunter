@@ -9,21 +9,21 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+vHunter/build/
+vHunter/develop-eggs/
+vHunter/dist/
+vHunter/downloads/
+vHunter/eggs/
+vHunter/.eggs/
+vHunter/lib/
+vHunter/lib64/
+vHunter/parts/
+vHunter/sdist/
+vHunter/var/
+vHunter/wheels/
+vHunter/*.egg-info/
+vHunter/.installed.cfg
+vHunter/*.egg
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
