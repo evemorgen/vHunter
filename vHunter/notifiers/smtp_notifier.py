@@ -29,9 +29,9 @@ class SmtpNotifier:
         self.mail.quit()
 
 
-class GmailSmtpNotifier(SmtpNotifier):
+class MailNotifier(SmtpNotifier):
     def __init__(self):
-        self.config = Config()['gmail_notifier']
+        self.config = Config()['mail_notifier']
         self.username = self.config['account']
         self.password = base64.b64decode(self.config['pass']).decode()
         super().__init__(

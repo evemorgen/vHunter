@@ -1,11 +1,12 @@
 import logging
 import socket
 
-from db import NvdapiAdapter
-from notifiers import GmailSmtpNotifier
 from utils import Config
 from utils import run_cmd
 from utils.distro import detect_distro
+
+from db import *         # noqa: F401,F403
+from notifiers import *  # noqa: F401,F403
 
 
 class BasicDriver:
@@ -14,7 +15,7 @@ class BasicDriver:
         logging.error(self.scenario['receivers'])
         self.hostname = socket.gethostname()
         self.config = Config()
-        self.nvdapi = NvdapiAdapter(scenario['min_score'])
+        self.dbapi = self.make_instance("NvdapiAdapter", scenario['min_score'])
 
     def prepare_message(self, vulns):
         logging.debug("all found vulns are: %s", vulns)
@@ -31,6 +32,13 @@ class BasicDriver:
             })
         return message_dict
 
+    def make_instance(self, name, *args, **kwargs):
+        try:
+            return globals()[name](*args, **kwargs)
+        except KeyError:
+            logging.error('Tried to load %s class, and failed. Typo perhaps?', name)
+            raise
+
     async def perform(self):
         distro = detect_distro()
         job_selector = {
@@ -46,10 +54,11 @@ class BasicDriver:
         for thing in res.split("\n"):
             try:
                 name, version = thing.split(",")
-                vulns = await self.nvdapi.check(name, version=version)
+                vulns = await self.dbapi.check(name, version=version)
                 all_vulns = all_vulns + vulns
             except ValueError as exc:
                 logging.exception("Bad line format, it takes name and version separated by comma 'name,version'")
 
-        self.mail = GmailSmtpNotifier()
-        self.mail.send_msg(self.scenario['receivers'], self.prepare_message(all_vulns))
+        for notifier_name in self.scenario['notifiers']:
+            notifier = self.make_instance(notifier_name)
+            notifier.send_msg(self.scenario['receivers'], self.prepare_message(all_vulns))

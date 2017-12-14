@@ -29,3 +29,6 @@ class Scenarios:
 
     def __getitem__(self, name):
         return self.scenarios[name]
+
+    def __iter__(self):
+        return iter(self.scenarios)

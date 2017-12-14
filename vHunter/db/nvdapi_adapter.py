@@ -1,4 +1,5 @@
 import aiohttp
+import async_timeout
 import logging
 from pprint import pformat
 
@@ -41,12 +42,13 @@ class NvdapiAdapter(BasicDbAdapter):
                 if counter > self.max_pages:
                     logging.warning("Tried to fetch %s page with cve entries for %s, aborting. \nThis settings can be changed by passing max_pages parameter to NvdapiAdapter", counter, thing)
                     break
-                async with session.get(url, params=payload) as response:
-                    logging.debug("trying response: %s", response)
-                    stuff = await response.json()
-                    grouped_results = grouped_results + [vuln for vuln in stuff['results'] if vuln['score'] > self.min_score]
-                    if stuff['next'] is None:
-                        break
-                counter = counter + 1
+                with async_timeout.timeout(10):
+                    async with session.get(url, params=payload) as response:
+                        logging.debug("trying response: %s", response)
+                        stuff = await response.json()
+                        grouped_results = grouped_results + [vuln for vuln in stuff['results'] if vuln['score'] > self.min_score]
+                        if stuff['next'] is None:
+                            break
+                    counter = counter + 1
         logging.debug("got responses: %s", pformat(grouped_results))
         return grouped_results
