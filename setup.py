@@ -1,7 +1,13 @@
 from setuptools import setup, find_packages
 import os
 
-print(find_packages())
+REQUIREMENTS = [
+    "singleton-decorator==1.0.0",
+    "yamlcfg==0.5.3",
+    "coloredlogs==7.3",
+    "aiohttp==2.3.6"
+]
+open("vHunter/requirements.txt", "w").writelines(req + "\n" for req in REQUIREMENTS)
 
 setup(
     name='vHunter',
@@ -14,12 +20,7 @@ setup(
     entry_points={
         'console_scripts': ['vhunter = vHunter:main'],
     },
-    install_requires=[
-        'singleton-decorator',
-        'yamlcfg',
-        'coloredlogs',
-        'aiohttp'
-    ],
+    install_requires=REQUIREMENTS,
     packages=find_packages(),
     data_files=[
         ('conf', ['vHunter/conf/' + file for file in os.listdir("vHunter/conf") if file.endswith('.yaml')]),

@@ -1,5 +1,6 @@
 import yaml
 import os
+import tempfile
 
 from yamlcfg import YamlConfig
 from singleton_decorator import singleton
@@ -21,13 +22,12 @@ def merge_yamls(paths):
 class Config(YamlConfig):
     def __init__(self, *args, **kwargs):
         self.merge_configs([PREFIX + 'conf/settings.yaml', PREFIX + 'conf/constants.yaml'])
-        kwargs['path'] = PREFIX + "conf/merged.yaml"
-        print(kwargs)
+        kwargs['path'] = tempfile.gettempdir() + "/merged.yaml"
         super().__init__(*args, **kwargs)
 
     def merge_configs(self, paths):
         result_dict = merge_yamls(paths)
-        result_file = open(PREFIX + 'conf/merged.yaml', 'w')
+        result_file = open(tempfile.gettempdir() + '/merged.yaml', 'w')
         yaml.dump(result_dict, result_file)
 
     def set_args(self, args):

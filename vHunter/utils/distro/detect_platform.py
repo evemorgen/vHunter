@@ -20,9 +20,6 @@ def detect_distro():
         elif ver[0] != '' and dist in config.supported_platforms:
             return {'distro': dist, 'version': ver}
 
-    #  grepped_distros = subprocess.run(config.fallback_distro_command, shell=True)
-    #  print(grepped_distros.stdout)
-
 
 def get_distro():
     return detect_distro()['distro']
