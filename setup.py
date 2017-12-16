@@ -5,7 +5,9 @@ REQUIREMENTS = [
     "singleton-decorator==1.0.0",
     "yamlcfg==0.5.3",
     "coloredlogs==7.3",
-    "aiohttp==2.3.6"
+    "aiohttp==2.3.6",
+    "setproctitle==1.1.10",
+    "daemonize==2.4.7"
 ]
 open("vHunter/requirements.txt", "w").writelines(req + "\n" for req in REQUIREMENTS)
 

@@ -13,7 +13,10 @@ def merge_yamls(paths):
     for doc in paths:
         stream = open(doc, 'r')
         loaded_dict = yaml.load(stream)
-        result_dict = {**result_dict, **loaded_dict}
+        try:
+            result_dict = {**result_dict, **loaded_dict}
+        except SyntaxError:
+            pass
         stream.close()
     return result_dict
 

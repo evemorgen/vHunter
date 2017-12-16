@@ -6,11 +6,12 @@ from vHunter.utils import run_cmd
 from vHunter.utils.distro import detect_distro
 
 from vHunter.db import *         # noqa: F401,F403
-from vHunter.notifiers import *  # noqa: F401,F403
+# from vHunter.notifiers import *  # noqa: F401,F403
 
 
 class BasicDriver:
-    def __init__(self, scenario):
+    def __init__(self, name, scenario):
+        self.scenario_name = name
         self.scenario = scenario
         self.hostname = socket.gethostname()
         self.config = Config()
@@ -27,7 +28,8 @@ class BasicDriver:
                 'version': vuln['product'][0]['version'],
                 'cve': vuln['cve'],
                 'score': vuln['score'],
-                'description': vuln['description']
+                'description': vuln['description'],
+                'scenario': self.scenario_name
             })
         return message_dict
 
@@ -39,6 +41,7 @@ class BasicDriver:
             raise
 
     async def perform(self):
+        from vHunter.workers import agregate
         distro = detect_distro()
         job_selector = {
             'linux': distro['version'],
@@ -59,5 +62,4 @@ class BasicDriver:
                 logging.error("Bad line format, it takes name and version separated by comma 'name,version', got '%s'", thing)
 
         for notifier_name in self.scenario['notifiers']:
-            notifier = self.make_instance(notifier_name)
-            notifier.send_msg(self.scenario['receivers'], self.prepare_message(all_vulns))
+            agregate(notifier_name, self.scenario['receivers'], self.prepare_message(all_vulns))

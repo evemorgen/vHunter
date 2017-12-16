@@ -1,38 +1,36 @@
-import platform
+import tempfile
+import sys
+from setproctitle import setproctitle
+from daemonize import Daemonize
 
 from vHunter.utils.config import Config
 from vHunter.utils.distro import detect_distro
+from vHunter.utils.distro import check_python
 from vHunter.utils import prepare_asyncio
 from vHunter.utils import parse_args
 from vHunter.utils import setup_logging
 from vHunter.workers import ScenarioWorker
+from vHunter.workers import NotifyAggregatorWorker
 
 
-MIN_PYTHON = "3.5.0"
+PIDFILE = tempfile.gettempdir() + "/vhunter.pid"
+PROCNAME = "vhunter %s" % (" ".join(sys.argv[1:]))
 
 
-def check_python():
-    min_python = int(MIN_PYTHON.replace(".", ""))
-    cur_python = int(platform.python_version().replace(".", ""))
-    if(len(str(cur_python)) < 3):
-        cur_python = int(str(cur_python) + "0" * (3 - len(cur_python)))
-    if cur_python < min_python:
-        raise SystemError(
-            "Minimal version of Python to run vHunter is: {}, but used version is: {}"
-            .format(min_python, cur_python)
-        )
+check_python()
+config = Config()
+args = parse_args()
+config.set_args(args)
+fd_list = setup_logging(log_file=args.log_file, log_level=args.log_level)
 
 
 def run_workers():
     ScenarioWorker()
+    NotifyAggregatorWorker()
 
 
 def main():
-    check_python()
-    config = Config()
-    args = parse_args()
-    config.set_args(args)
-    setup_logging(log_file=args.log_file, log_level=args.log_level)
+    setproctitle(PROCNAME)
     detect_distro()
     main_loop = prepare_asyncio()
     run_workers()
@@ -41,4 +39,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    daemon = Daemonize(
+        app="test_app",
+        pid=PIDFILE,
+        action=main,
+        keep_fds=fd_list,
+        foreground=args.foreground
+    )
+    daemon.start()

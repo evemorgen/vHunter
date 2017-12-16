@@ -32,6 +32,7 @@ def setup_logging(log_file=None, log_level=None):
     coloredlogs.install(
         level=levels[log_level]
     )
+    return [handler.stream.fileno()]
 
 
 def make_dirs(log_file):

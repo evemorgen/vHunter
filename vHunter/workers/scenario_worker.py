@@ -19,8 +19,8 @@ class ScenarioWorker:
         self.ioloop = asyncio.get_event_loop()
         self.ioloop.call_soon(asyncio.ensure_future, self.run())
 
-    def load_driver(self, name, scenario):
-        return globals()[name](scenario)
+    def load_driver(self, name, scenario, scenario_name):
+        return globals()[name](scenario_name, scenario)
 
     @async_every(minutes=1)
     async def run(self):
@@ -35,7 +35,7 @@ class ScenarioWorker:
             if time.time() - self.scenario_runs[name] > scenarios[name]['how_often'] * 60:
                 logging.info("Performing %s", name)
                 self.scenario_runs[name] = time.time()
-                driver = self.load_driver(scenarios[name]['driver'], scenarios[name])
+                driver = self.load_driver(scenarios[name]['driver'], scenarios[name], name)
                 drivers.append(driver.perform())
             else:
                 logging.info(

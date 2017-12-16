@@ -1,6 +1,9 @@
 import platform
+import sys
 
 from vHunter.utils import Config
+
+MIN_PYTHON = "3.5.0"
 
 
 def detect_distro():
@@ -23,3 +26,16 @@ def detect_distro():
 
 def get_distro():
     return detect_distro()['distro']
+
+
+def check_python():
+    min_python = int(MIN_PYTHON.replace(".", ""))
+    cur_python = int(platform.python_version().replace(".", ""))
+    if(len(str(cur_python)) < 3):
+        cur_python = int(str(cur_python) + "0" * (3 - len(cur_python)))
+    if cur_python < min_python:
+        raise SystemError(
+            "Minimal version of Python to run vHunter is: {}, but used version is: {}"
+            .format(min_python, cur_python)
+        )
+        sys.exit(1)

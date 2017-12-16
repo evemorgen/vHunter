@@ -1,4 +1,5 @@
 min_python: 3.5.0
+proc_title: vhunter
 log_file: 
     mac_os: /usr/local/var/log/vHunter/vHunter.log 
     linux: /var/log/vHunter/vHunter.log
