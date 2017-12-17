@@ -1,5 +1,7 @@
 import asyncio
+import aiohttp
 import logging
+import socket
 from singleton_decorator import singleton
 
 from vHunter.utils import async_every
@@ -8,7 +10,10 @@ from vHunter.notifiers import *  # noqa: F401,F403
 
 @singleton
 class NotifyAggregatorWorker:
-    def __init__(self):
+    def __init__(self, slave=False, master_host=None, master_port=None):
+        self.slave = slave
+        self.master_host = master_host
+        self.master_port = master_port
         self.things_to_send = {}
         self.ioloop = asyncio.get_event_loop()
         self.ioloop.call_soon(asyncio.ensure_future, self.run())
@@ -22,7 +27,7 @@ class NotifyAggregatorWorker:
     def load_notifier(self, name):
         return globals()[name]()
 
-    @async_every(minutes=20)
+    @async_every(minutes=3)
     async def run(self):
         logging.info("sending agregated notifications")
         for notifier, receiver in self.things_to_send:
@@ -34,8 +39,14 @@ class NotifyAggregatorWorker:
                         final_dict[host] = []
                     final_dict[host] = final_dict[host] + scenario_set[host]
             logging.debug("final merged vulns are: %s", final_dict)
-            notify = self.load_notifier(notifier)
-            notify.send_msg([receiver, ], final_dict)
+            if self.slave is True:
+                url = "http://{}:{}/notify/{}".format(self.master_host, self.master_port, socket.gethostname())
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(url, json={"notifier_class": notifier, "receivers": [receiver, ], "vulnerabilities": final_dict}):
+                        logging.info("send notify to master")
+            else:
+                notify = self.load_notifier(notifier)
+                notify.send_msg([receiver, ], final_dict)
         self.things_to_send = {}
 
 

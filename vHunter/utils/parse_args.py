@@ -17,10 +17,10 @@ def parse_args():
     parser.add_argument('-c', '--config', action='store', help=descs['config_help'])
     parser.add_argument('-l', '--log-file', action='store', help=descs['log_file_help'])
     parser.add_argument('-L', '--log-level', action='store', help=descs['log_level_help'])
-    parser.add_argument('-p', '--port', action='store', help=descs['port_help'])
+    parser.add_argument('-p', '--port', action='store', help=descs['port_help'], default=1911)
     parser.add_argument('-H', '--host', action='store', help=descs['host_help'])
     parser.add_argument('-f', '--foreground', action='store_true', help="foreground mode", default=False)
-    parser.add_argument('-d', '--background', action='store_true', help="foreground mode", default=False)
+    parser.add_argument('-d', '--background', action='store_true', help="daemon mode", default=False)
     parser.add_argument('--list', action='store_true', help=descs['list_scenarios_help'])
 
     args = parser.parse_args()
@@ -37,8 +37,8 @@ def feature_not_supported(arg):
 def not_supported_args(args):
     not_supported = [
         "master_slave",
-        "master",
-        "slave",
+        #"master",
+        #"slave",
         "scenario",
         "config",
         "port",

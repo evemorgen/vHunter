@@ -1,7 +1,13 @@
 import tempfile
 import sys
+from random import random
+
 from setproctitle import setproctitle
 from daemonize import Daemonize
+
+from tornado.web import Application
+from tornado.platform.asyncio import AsyncIOMainLoop
+
 
 from vHunter.utils.config import Config
 from vHunter.utils.distro import detect_distro
@@ -9,11 +15,13 @@ from vHunter.utils.distro import check_python
 from vHunter.utils import prepare_asyncio
 from vHunter.utils import parse_args
 from vHunter.utils import setup_logging
+from vHunter.utils import PingServer, AgregateServer
 from vHunter.workers import ScenarioWorker
 from vHunter.workers import NotifyAggregatorWorker
+from vHunter.workers import PingWorker
 
 
-PIDFILE = tempfile.gettempdir() + "/vhunter.pid"
+PIDFILE = "{}/vhunter-{}.pid".format(tempfile.gettempdir(), round(random()))
 PROCNAME = "vhunter %s" % (" ".join(sys.argv[1:]))
 
 
@@ -26,7 +34,9 @@ fd_list = setup_logging(log_file=args.log_file, log_level=args.log_level)
 
 def run_workers():
     ScenarioWorker()
-    NotifyAggregatorWorker()
+    NotifyAggregatorWorker(slave=args.slave, master_host=args.host, master_port=args.port)
+    if args.slave is True:
+        PingWorker(master_host=args.host, master_port=args.port)
 
 
 def main():
@@ -34,6 +44,13 @@ def main():
     detect_distro()
     main_loop = prepare_asyncio()
     run_workers()
+    if args.master is True:
+        app = Application([
+            (r'/ping/[^/]*', PingServer),
+            (r'/notify/[^/]*', AgregateServer)
+        ])
+        AsyncIOMainLoop().install()
+        app.listen(args.port)
     main_loop.run_forever()
     main_loop.close()
 
