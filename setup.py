@@ -13,7 +13,7 @@ open("vHunter/requirements.txt", "w").writelines(req + "\n" for req in REQUIREME
 
 setup(
     name='vHunter',
-    version='0.8',
+    version='0.81',
     author="Patryk Galczynski",
     author_email="galczynski.patryk@gmail.com",
     license='MIT',
