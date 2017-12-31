@@ -36,7 +36,7 @@ class NvdapiAdapter(BasicDbAdapter):
         payload = self.prepare_payload(thing, version, vendor)
         grouped_results = []
         async with aiohttp.ClientSession() as session:
-            logging.debug("will do the request with session: %s", session)
+            logging.debug("will do the request with session: %s about %s", session, thing)
             counter = 0
             while True:
                 if counter > self.max_pages:
@@ -52,6 +52,6 @@ class NvdapiAdapter(BasicDbAdapter):
                                 break
                         counter = counter + 1
                 except Exception:
-                    pass
+                    logging.warning("Oops, something bad happend while trying to fetch info")
         logging.debug("got responses: %s", pformat(grouped_results))
         return grouped_results

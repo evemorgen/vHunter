@@ -1,6 +1,6 @@
 list-python-packages-scenario:
     job:
-        default: pip3 freeze | sed -e 's/==/,/g'
+        default: for i in `compgen -c python`; do $i -m pip freeze; done | sort | uniq | sed -e 's/==/,/g'
     min_score: 5.0
     driver: BasicDriver
     how_often: 3 # in minutes
@@ -8,5 +8,3 @@ list-python-packages-scenario:
         - evemorgen1911@gmail.com
     notifiers:
         - MailNotifier
- 
-

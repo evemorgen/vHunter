@@ -1,9 +1,10 @@
 list-apps-scenario:
     job:
-        ubuntu: dpkg -l | awk ''{ print $2 \",\" $3}'' | tail -n +6
-        centos: yum list
+        debian: dpkg -l | awk 'gsub("[0-9]:", "") match($3,"([0-9]+\.*)*[0-9]*") { print $2 "," substr($3, RSTART, RLENGTH)}' | sed 's/\.$//' | tail -n+6
+        ubuntu: dpkg -l | awk 'gsub("[0-9]:", "") match($3,"([0-9]+\.*)*[0-9]*") { print $2 "," substr($3, RSTART, RLENGTH)}' | sed 's/\.$//' | tail -n+6
         mac_os: brew list --versions | sed -e 's/ /,/g'
-        default: echo ''distro not found''
+        centos: yum list | grep -P "(\@CentOS|base)" | awk '{ split($1, a, "."); split($2, b, "-"); print a[1] "," b[1]}' | tail -n+2
+        default: echo 'distro not found'
     min_score: 5.0
     driver: BasicDriver
     how_often: 10 # in minutes

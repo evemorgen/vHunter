@@ -3,7 +3,7 @@ import socket
 import aiohttp
 import logging
 
-from utils import async_every
+from vHunter.utils import async_every
 
 
 class PingWorker:

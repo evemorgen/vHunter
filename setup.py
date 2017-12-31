@@ -13,10 +13,10 @@ open("vHunter/requirements.txt", "w").writelines(req + "\n" for req in REQUIREME
 
 setup(
     name='vHunter',
-    version='0.7',
+    version='0.8',
     author="Patryk Galczynski",
     author_email="galczynski.patryk@gmail.com",
-    license='Creative Commons Attribution-Noncommercial-Share Alike license',
+    license='MIT',
     long_description=open('README.md').read(),
     url="http://github.com/evemorgen/vHunter",
     entry_points={
