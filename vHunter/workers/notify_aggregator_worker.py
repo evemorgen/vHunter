@@ -27,6 +27,9 @@ class NotifyAggregatorWorker:
     def load_notifier(self, name):
         return globals()[name]()
 
+    def deduplicate(self, list_of_dicts):
+        return list({v['cve']: v for v in list_of_dicts}.values())
+
     @async_every(minutes=3)
     async def run(self):
         logging.info("sending agregated notifications")
@@ -37,7 +40,7 @@ class NotifyAggregatorWorker:
                 for host in scenario_set:
                     if host not in final_dict:
                         final_dict[host] = []
-                    final_dict[host] = final_dict[host] + scenario_set[host]
+                    final_dict[host] = final_dict[host] + self.deduplicate(scenario_set[host])
             logging.debug("final merged vulns are: %s", final_dict)
             if self.slave is True:
                 url = "http://{}:{}/notify/{}".format(self.master_host, self.master_port, socket.gethostname())

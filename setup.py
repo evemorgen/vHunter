@@ -7,13 +7,14 @@ REQUIREMENTS = [
     "coloredlogs==7.3",
     "aiohttp==2.3.6",
     "setproctitle==1.1.10",
-    "daemonize==2.4.7"
+    "daemonize==2.4.7",
+    "tornado==4.5.2"
 ]
 open("vHunter/requirements.txt", "w").writelines(req + "\n" for req in REQUIREMENTS)
 
 setup(
     name='vHunter',
-    version='0.81',
+    version='0.82',
     author="Patryk Galczynski",
     author_email="galczynski.patryk@gmail.com",
     license='MIT',

@@ -44,7 +44,7 @@ class BasicDriver:
         from vHunter.workers import agregate
         distro = detect_distro()
         job_selector = {
-            'linux': distro['version'][0],
+            'linux': distro['version'][0].lower(),
             'mac_os': distro['distro']
         }
         if job_selector[distro['distro']] in self.scenario['job']:
