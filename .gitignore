@@ -9,21 +9,25 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
-build/
-develop-eggs/
+vHunter/build/
+vHunter/develop-eggs/
 dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
+vHunter/dist/
+vHunter/downloads/
+vHunter/eggs/
+vHunter/.eggs/
+vHunter/lib/
+vHunter/lib64/
+vHunter/parts/
+vHunter/sdist/
+vHunter/var/
+vHunter/wheels/
+vHunter/*.egg-info/
 *.egg-info/
-.installed.cfg
-*.egg
+vHunter/.installed.cfg
+vHunter/*.egg
+VE/
+install.sh
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -99,3 +103,11 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# vimfiles
+**/*.swp
+**/*.swo
+
+# testing files
+/playground/*
+/vHunter/conf/merged.yaml
