@@ -4,3 +4,4 @@ coloredlogs==7.3
 aiohttp==2.3.6
 setproctitle==1.1.10
 daemonize==2.4.7
+tornado==4.5.2

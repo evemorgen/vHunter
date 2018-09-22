@@ -1,8 +1,8 @@
 import logging
 import time
-import json
 
 from tornado.web import RequestHandler
+from tornado.escape import json_decode
 from tornado.template import Template
 from singleton_decorator import singleton
 
@@ -81,6 +81,6 @@ class AgregateServer(RequestHandler):
 
     async def post(self):
         name = self.request.uri.split("/")[2]
-        data = json.loads(self.request.body)
+        data = json_decode(self.request.body)
         SlavesContainer().set_last_notify(name, data)
         agregate(data["notifier_class"], data["receivers"], data["vulnerabilities"])
